@@ -36,6 +36,7 @@ public class OgnlUtils {
      * @return
      */
     public static Number getNumber(String ognl, Map root) {
+        System.out.println("156");
         Number result = null;
         try {
             Object val = Ognl.getValue(ognl, root);
