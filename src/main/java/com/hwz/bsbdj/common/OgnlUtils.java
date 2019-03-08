@@ -33,17 +33,16 @@ public class OgnlUtils {
      *
      * @param ognl
      * @param root
-     * @return
+     * @return Number是所有数字的父类
      */
     public static Number getNumber(String ognl, Map root) {
-        System.out.println("156");
         Number result = null;
         try {
             Object val = Ognl.getValue(ognl, root);
             if (val != null) {
-                if (val instanceof Number){
+                if (val instanceof Number) {
                     result = (Number) val;
-                }else if (val instanceof String){
+                } else if (val instanceof String) {
                     result = new BigDecimal((String) val);
                 }
             }
@@ -57,13 +56,32 @@ public class OgnlUtils {
 
     /**
      * Boolean类型
+     *
      * @param ognl
      * @param root
      * @return
      */
-    public static Boolean Boolean(String ognl, Map root) {
+    public static Boolean getBoolean(String ognl, Map root) {
         Boolean result = null;
-
-        return  result;
+        try {
+            Object value = Ognl.getValue(ognl, root);
+            if (value != null) {
+                if (value instanceof Boolean) {
+                    result = (Boolean) value;
+                } else if (value instanceof String) {
+                    result = ((String) value).equalsIgnoreCase("true") ? true : false;
+                } else if (value instanceof Number) {
+                    if (((Number) value).intValue() == 1) {
+                        result = true;
+                    } else {
+                        result = false;
+                    }
+                }
+            }
+        } catch (OgnlException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
+
 }
